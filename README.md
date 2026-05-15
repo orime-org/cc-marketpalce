@@ -15,14 +15,14 @@ Pre-turn intent guard + Stop-time knowledge audit—keeps Claude accountable and
 ## Installation
 
 ```bash
-/plugin marketplace add github:<user>/orime
+/plugin marketplace add orime-org/cc-marketpalce
 /plugin install watcher@orime
 ```
 
 Or for local development:
 
 ```bash
-/plugin marketplace add <path-to-orime>
+/plugin marketplace add <path-to-local-orime>
 /plugin install watcher@orime
 ```
 
