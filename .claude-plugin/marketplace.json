@@ -1,0 +1,15 @@
+{
+  "name": "orime",
+  "version": "0.1.0",
+  "description": "Orime — collection of Claude Code plugins for self-monitoring and knowledge curation",
+  "owner": {
+    "name": "Justin"
+  },
+  "plugins": [
+    {
+      "name": "watcher",
+      "source": "./watcher",
+      "description": "Pre-turn intent guard + Stop-time knowledge audit (hooks + skill)"
+    }
+  ]
+}

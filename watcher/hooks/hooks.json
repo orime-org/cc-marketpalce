@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "description": "Orime watcher hooks: Pre-turn intent guard + Stop-time knowledge audit reminder",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/announce-intent.sh\"",
+            "timeout": 5
+          }
+        ],
+        "description": "Pre-turn 4 步行动意图守卫（复述需求 → 分析本质 → 给彻底方案 → 告知意图）"
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/suggest-watcher.sh\"",
+            "timeout": 10
+          }
+        ],
+        "description": "Stop-time watcher 调用建议（防漂移触发器 + 根因审查）"
+      }
+    ]
+  }
+}
