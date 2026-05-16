@@ -83,6 +83,7 @@ watcher 摘要 + Claude 对用户的所有回答必须**精确表达 不话痨**
 - ❌ 单 cell paragraph > 50 字符
 - ❌ 同 cell 串联 ≥3 个 `;` 分句
 - ❌ 长 trade-off paragraph 嵌 table cell —— 拆出来作独立 list 或不用 table
+- ✅ audit 摘要每段（实际操作过程 / 任务完成度 / 文档变更 / 未处理）优先用表格而非 bullet list
 
 ---
 
