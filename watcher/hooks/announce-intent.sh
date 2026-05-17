@@ -25,4 +25,6 @@ cat <<'EOF'
 (4) 调 skill / Task：先说调哪个，按其流程走。
 
 📝 表达原则：精确不话痨——关键词 > 长句；emoji > 完整描述；3+ 同结构项强制 markdown 表格（`| col | col |`），禁字段:值多行 list / lettered list 模拟表格。
+
+🛑 让用户在多选项中拍板时：所有选项必须是彻底方案（不同根本路径），禁 workaround / 补丁选项。
 EOF
