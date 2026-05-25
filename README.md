@@ -15,7 +15,7 @@ Pre-turn intent guard + Stop-time knowledge audit—keeps Claude accountable and
 ## Installation
 
 ```bash
-/plugin marketplace add orime-org/cc-marketpalce
+/plugin marketplace add orime-org/cc-hooks
 /plugin install watcher@orime
 ```
 
