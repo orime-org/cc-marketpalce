@@ -16,7 +16,12 @@ PROMPT_LEN=${#PROMPT}
 # 日志（只记长度不记内容，避免泄漏 + 不浪费日志容量）
 printf '[%s] session=%s prompt_len=%d status=inject\n' "$TS" "${SESSION:-?}" "$PROMPT_LEN" >> "$LOG"
 
+TODAY=$(date -u '+%Y-%m-%d %H:%M')
+
 # plain stdout → CC 自动注入为 <system-reminder>
+# 日期通过 echo 单独输出（heredoc 用单引号关变量替换以保留 backticks）
+echo "📅 当前日期（UTC）：${TODAY}（系统真实时间，CC system-reminder 的 currentDate 可能不准，以此为准）"
+echo ""
 cat <<'EOF'
 🎯 [Pre-turn] 必先 4 步：复述需求 → 分析本质（找根本，非表象）→ 给彻底方案（无法时明示临时）→ 告知意图。再按动作：
 (1) 查询：答。
