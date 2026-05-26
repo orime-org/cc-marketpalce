@@ -28,6 +28,7 @@ cat <<'EOF'
 (2) 1 处工具：先说要用啥工具，再动手。
 (3) 多处工具：列计划（含 skill / 工具清单）等确认。
 (4) 调 skill / Task：先说调哪个，按其流程走。
+(5) 多步任务（3+ 步骤）或 2+ 任务：用 TaskCreate 列 todo + 开始时 update in_progress + 完成时 update completed；禁"做完一堆事最后才说"。
 
 📝 输出格式（为了让用户看懂）：2+ 同结构项（无论"详细叙述"还是"横向对比"）强制 markdown 表格（`| col | col |`）；禁字段:值多行 list / lettered list 模拟表格。
 
