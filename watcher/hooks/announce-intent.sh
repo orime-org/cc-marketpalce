@@ -16,7 +16,7 @@ PROMPT_LEN=${#PROMPT}
 # 日志（只记长度不记内容，避免泄漏 + 不浪费日志容量）
 printf '[%s] session=%s prompt_len=%d status=inject\n' "$TS" "${SESSION:-?}" "$PROMPT_LEN" >> "$LOG"
 
-TODAY=$(date -u '+%Y-%m-%d %H:%M')
+TODAY=$(date -u '+%Y-%m-%d %H:%M:%S')
 
 # plain stdout → CC 自动注入为 <system-reminder>
 # 日期通过 echo 单独输出（heredoc 用单引号关变量替换以保留 backticks）
