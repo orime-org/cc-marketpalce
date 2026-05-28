@@ -20,15 +20,16 @@ Claude 自动跑几轮之后，经常出这些问题：
 
 `watcher` 在每轮开始时（通过 `UserPromptSubmit` hook）注入规则，在每次停下时（通过 `watcher` skill）跑 5 步知识审计。结果是：Claude 始终按你的输出风格走，知识库也保持最新。
 
-## watcher 插件（0.1.0）
+## watcher 插件（0.1.1）
 
 ### 干啥用
 
 | 组件 | 啥时候触发 | 干啥 |
 |---|---|---|
 | `UserPromptSubmit` hook（`announce-intent.sh`）| 你每次发 prompt | 注入一个 `<system-reminder>`，里面有 10 段规则 |
-| `Stop` hook（`suggest-watcher.sh`）| Claude 每轮结束 | 拦住这轮，提示 Claude 调用 `watcher` skill |
+| `Stop` hook（`suggest-watcher.sh`）| Claude 每轮结束 | 拦住这轮，提示 Claude 调用 `watcher` skill（可以用 `/watcher-off` 在当前项目临时关掉）|
 | `watcher` skill（audit / configure 两个模式）| 被 Stop hook 触发或手动调用 | 跑 5 步审计 + 输出 7 段结构化摘要，或配置项目级 `.watcher/` |
+| `/watcher-off` / `/watcher-on` slash 命令 | 你手动跑 | 按项目开关 Stop hook 提醒（创建 / 删除 `.watcher/.stop-disabled` 标记文件）|
 
 ### 每轮注入的 10 段规则
 
@@ -96,6 +97,25 @@ git clone https://github.com/orime-org/cc-hooks.git
 ```
 
 `watcher` 进 configure 模式，问你项目情况，然后写这 3 个文件。之后每次审计都会同时跑全局规则 + 你的项目规则。
+
+## 按项目开关 Stop 提醒
+
+不想在某个项目里每轮都被 watcher Stop 提醒打断（比如临时调试 / 跑 trivial 任务 / 给别人演示）——可以**按项目**关掉,不影响其他项目,也不影响 UserPromptSubmit 规则注入。
+
+| Slash 命令 | 干啥 | 标记文件 |
+|---|---|---|
+| `/watcher-off` | 关掉当前项目的 Stop 提醒 | 创建 `<项目>/.watcher/.stop-disabled` |
+| `/watcher-on` | 重新打开当前项目的 Stop 提醒 | 删除 `<项目>/.watcher/.stop-disabled` |
+
+工作原理：
+
+- Stop hook 从 stdin JSON 读 `cwd` 字段,拼出 `<cwd>/.watcher/.stop-disabled` 路径,看文件存不存在
+- 存在 → 直接 `exit 0`,不阻拦不提醒
+- 不存在 → 正常 `decision:"block"` 流程,提示 Claude 调 `watcher` skill
+- `UserPromptSubmit` 的 10 段规则注入**不受影响**——只关每轮结束的 audit 提醒
+- 每个项目有自己独立的开关文件,不互相影响
+
+你也可以手动管理这个文件：`touch .watcher/.stop-disabled` 关 / `rm .watcher/.stop-disabled` 开。
 
 ## 改 announce 规则
 

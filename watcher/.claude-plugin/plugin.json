@@ -1,7 +1,7 @@
 {
   "name": "watcher",
-  "version": "0.1.0",
-  "description": "Pre-turn intent guard + Stop-time knowledge audit (hooks + skill) for self-monitoring",
+  "version": "0.1.1",
+  "description": "Pre-turn intent guard + Stop-time knowledge audit (hooks + skill + per-project on/off commands) for self-monitoring",
   "license": "MIT",
   "keywords": ["claude-code", "hooks", "skill", "knowledge-management", "watcher", "self-monitoring"]
 }

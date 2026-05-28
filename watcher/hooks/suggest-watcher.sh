@@ -17,10 +17,18 @@ TS=$(date '+%Y-%m-%d %H:%M:%S')
 INPUT=$(cat)
 SESSION=$(printf '%s' "$INPUT" | jq -r '.session_id // empty' 2>/dev/null)
 ACTIVE=$(printf '%s' "$INPUT" | jq -r '.stop_hook_active // false' 2>/dev/null)
+CWD=$(printf '%s' "$INPUT" | jq -r '.cwd // empty' 2>/dev/null)
 
 # 防递归：第二次 Stop hook 调用（block 后 CC 自动启动的 turn 结束时）skip
 if [ "$ACTIVE" = "true" ]; then
   printf '[%s] session=%s status=skip-stop-hook-active\n' "$TS" "${SESSION:-?}" >> "$LOG"
+  exit 0
+fi
+
+# 项目级开关：当前项目存在 .watcher/.stop-disabled 文件 → skip 本轮提醒
+# 用户用 /watcher-off 创建该文件，用 /watcher-on 删除
+if [ -n "$CWD" ] && [ -f "$CWD/.watcher/.stop-disabled" ]; then
+  printf '[%s] session=%s cwd=%s status=skip-project-disabled\n' "$TS" "${SESSION:-?}" "$CWD" >> "$LOG"
   exit 0
 fi
 

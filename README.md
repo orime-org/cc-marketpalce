@@ -20,15 +20,16 @@ When Claude runs autonomously over many turns:
 
 `watcher` injects rules at every turn (via `UserPromptSubmit` hook) and runs a 5-step knowledge audit at every Stop (via the `watcher` skill). The result: Claude follows your output style and your knowledge base stays current.
 
-## Plugin: watcher (0.1.0)
+## Plugin: watcher (0.1.1)
 
 ### What it does
 
 | Component | When it fires | What it does |
 |---|---|---|
 | `UserPromptSubmit` hook (`announce-intent.sh`) | Every prompt you submit | Injects a `<system-reminder>` with 10 segments of rules |
-| `Stop` hook (`suggest-watcher.sh`) | Every Claude turn ends | Blocks the turn and reminds Claude to invoke `watcher` skill |
+| `Stop` hook (`suggest-watcher.sh`) | Every Claude turn ends | Blocks the turn and reminds Claude to invoke `watcher` skill (skippable per-project via `/watcher-off`) |
 | `watcher` skill (audit / configure) | Triggered by Stop hook or manually | Runs 5-step audit + 7-section summary, or configures project-level `.watcher/` |
+| `/watcher-off` / `/watcher-on` slash commands | Run manually | Toggle the Stop hook reminder for the current project (creates / removes `.watcher/.stop-disabled`) |
 
 ### The 10 rule segments injected per turn
 
@@ -96,6 +97,25 @@ To set up `.watcher/`, run:
 ```
 
 `watcher` enters configure mode, interviews you about your project, and writes the 3 files. After that, every audit runs both global rules and your project-specific rules.
+
+## Toggling the Stop reminder per project
+
+The `Stop` hook reminder can be silenced for a specific project without uninstalling the plugin or disabling the global `UserPromptSubmit` rule injection.
+
+| Slash command | What it does | Marker file |
+|---|---|---|
+| `/watcher-off` | Silence the Stop reminder in the current project | Creates `<project>/.watcher/.stop-disabled` |
+| `/watcher-on` | Re-enable the Stop reminder in the current project | Removes `<project>/.watcher/.stop-disabled` |
+
+How it works:
+
+- The Stop hook reads `cwd` from its stdin JSON and checks if `<cwd>/.watcher/.stop-disabled` exists
+- If yes → `exit 0` immediately (no block, no reminder)
+- If no → normal `decision:"block"` flow that nudges Claude to invoke the `watcher` skill
+- The `UserPromptSubmit` announce rules keep running either way — only the turn-end audit reminder is toggled
+- Each project has its own toggle file, so you can keep `watcher` chatty in important projects and quiet in throwaway sandboxes
+
+You can also manage the toggle file by hand: `touch .watcher/.stop-disabled` / `rm .watcher/.stop-disabled`.
 
 ## Customizing announce rules
 
