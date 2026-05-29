@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.4 — 2026-05-29
+
+### Module: Watcher
+
+修双 audit + 砍空 audit 噪音（SKILL.md）：
+
+- **A — 砍自动触发**：frontmatter description 删掉 "MUST trigger ... 收尾 / 任何暗示里程碑的话" 自动触发语，改成"不要自己主动调，audit 只由 Stop hook reason 显式指示或用户显式命令触发"。
+  - 修了"CC 自己主动调 watcher（1 次）+ Stop hook 再触发（1 次）= 双 audit"的 bug
+- **B — fast-path**：新增「第零步：fast-path 判定」——本轮无文件变更 + 无新事实（纯问答 / 查看 / trivial）→ 跳过第一~三步同步与存量审查，只跑任务质量自检，摘要缩成「意图复述 + 任务完成度 + 根因自检」三段
+  - 调和 3 处旧条款：摘要"禁止一句话替代"加 fast-path 例外；"对话无新事实仍审查"改成"无文件变更则 fast-path 跳过，存量审查改 opt-in"
+
 ## 0.1.3 — 2026-05-29
 
 ### Module: Watcher
