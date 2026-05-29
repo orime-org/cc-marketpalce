@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.6 — 2026-05-29
+
+### Module: Watcher
+
+跳过计数：让最终 audit 知道「攒了多少轮没审」并放宽审计范围（改 suggest-watcher.sh）：
+
+- **计数**：每次 stop 因 ① 中途无收尾文本（skip-no-last-msg）② watcher 手动关闭期间（skip-project-disabled）被跳过 → `<cwd>/.watcher/.skip-count` +1。`active=true`（audit 自己那轮）不计
+- **存储**：项目本地 `.watcher/.skip-count`（项目相关语义，非 per-session）；仅当 `.watcher/` 已存在时计，不给未配置项目凭空造 `.watcher/`
+- **注入 + 清零**：正常 stop（有 last_assistant_message）提醒跑 audit 时，读计数 → 拼进 reason（"已累计 N 轮没审，这次范围从『只本轮』放宽到『本轮 + 这 N 轮被跳过的工作』一起审"）→ 清零。reason 改用 jq 构造（安全转义）
+- 解决 SKILL.md audit 是「只本轮」范围导致的「被跳过的轮永远没被审」
+
 ## 0.1.5 — 2026-05-29
 
 ### Module: Watcher
