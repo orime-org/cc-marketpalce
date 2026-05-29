@@ -120,6 +120,7 @@ cat <<'EOF'
 ## 10. 关于 PR 善后（如果这轮要对接 PR 流程，也就是 gh pr create 触发的话）
 
 - 盯着状态——用 gh pr checks 或者 gh pr view 看 CI、review、合并进度，直到 CI 通过、合并或者关闭
+- 建完 PR（gh pr create 成功）后，必须把 PR 的完整 url 地址单独拎出来贴给我，方便我直接点开看
 - 合并完之后必做的事：切回主分支（main 或者 master），git pull 一下，删掉本地分支；如果还有依赖的项目，跨项目同步一下；别"提完 PR 就当结束"
 
 ## 11. 死刑底线

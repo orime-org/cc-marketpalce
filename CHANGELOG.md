@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.8 — 2026-05-29
+
+### Module: Watcher
+
+- announce 段 10（PR 善后）加一条：建完 PR（`gh pr create` 成功）后，必须把 PR 完整 url 单独贴出来给用户，方便直接点开
+
 ## 0.1.7 — 2026-05-29
 
 ### Module: Watcher
