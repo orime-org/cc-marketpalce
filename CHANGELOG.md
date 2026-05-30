@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.13 — 2026-05-30
+
+### Module: Watcher
+
+- **Stop hook reason 末尾加开关说明**：每轮收尾提醒里直接告诉用户怎么关/开本项目的 watcher（`/watcher:watcher-off` 关、`/watcher:watcher-on` 开），并明确"这是用户的开关，Claude 别自作主张去关"。根因是开关命令 0.1.1 就有但只写在 README，用户被提醒轰炸、最想关时眼前没逃生门
+
 ## 0.1.12 — 2026-05-29
 
 ### Module: Watcher

@@ -80,6 +80,8 @@ STATIC_REASON=$(cat <<'EOF'
 - Claude 不应自作主张转 configure 模式
 - 如 .watcher/ 缺失，提示用户手动 /watcher configure
 - 跑完 watcher audit 后，必须自己处理 audit 结果（按自检发现的问题做修正）；处理完如果原任务还没干完，继续把原任务干完，别停在 audit 这一步
+
+开关：若想关掉每轮的自动 watcher，可手动输入 `/watcher:watcher-off` 关掉本项目的该功能，`/watcher:watcher-on` 重新打开（只影响当前项目）。这是留给用户的开关，Claude 别自作主张去关。
 EOF
 )
 
